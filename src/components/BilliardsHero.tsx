@@ -90,8 +90,17 @@ function roundedRectPath(ctx: CanvasRenderingContext2D, x: number, y: number, w:
   ctx.closePath()
 }
 
-export default function BilliardsHero() {
+type BilliardsHeroProps = {
+  onPlayingChange?: (playing: boolean) => void
+}
+
+export default function BilliardsHero({ onPlayingChange }: BilliardsHeroProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const playingCbRef = useRef(onPlayingChange)
+
+  useEffect(() => {
+    playingCbRef.current = onPlayingChange
+  }, [onPlayingChange])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -769,6 +778,7 @@ export default function BilliardsHero() {
       if (fadeJob) return
       if (mode === 'cinematic') {
         mode = 'play'
+        playingCbRef.current?.(true)
         startFade(() => {
           setupRack()
           playState = 'idle'
@@ -942,6 +952,7 @@ export default function BilliardsHero() {
             startFade(() => {
               setupRack()
               mode = 'cinematic'
+              playingCbRef.current?.(false)
               phase = 'fadeIn'
               phaseStart = performance.now()
               updateCursor()

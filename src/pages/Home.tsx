@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { site } from '../siteConfig'
 import BilliardsHero from '../components/BilliardsHero'
@@ -48,6 +49,8 @@ const highlights = [
 ]
 
 export default function Home() {
+  const [playing, setPlaying] = useState(false)
+
   return (
     <div>
       {/* Hero */}
@@ -60,16 +63,22 @@ export default function Home() {
           }}
         />
         <div className="absolute inset-0 -z-20">
-          <BilliardsHero />
+          <BilliardsHero onPlayingChange={setPlaying} />
         </div>
         <div
-          className="pointer-events-none absolute inset-0 -z-10"
+          className={`pointer-events-none absolute inset-0 -z-10 transition-opacity duration-700 ${
+            playing ? 'opacity-0' : 'opacity-100'
+          }`}
           style={{
             background:
               'radial-gradient(ellipse 55% 45% at center, rgba(6,5,3,0.72) 0%, rgba(6,5,3,0.4) 55%, rgba(6,5,3,0.12) 80%, rgba(6,5,3,0) 100%)',
           }}
         />
-        <div className="pointer-events-none relative mx-auto flex max-w-6xl flex-col items-center px-4 py-24 text-center select-none sm:px-6 sm:py-32">
+        <div
+          className={`pointer-events-none relative mx-auto flex max-w-6xl flex-col items-center px-4 py-24 text-center transition-opacity duration-700 select-none sm:px-6 sm:py-32 ${
+            playing ? 'opacity-0' : 'opacity-100'
+          }`}
+        >
           <span className="rounded-full border border-gold/40 px-4 py-1 text-xs uppercase tracking-[0.4em] text-gold">
             Al Salam Mall &middot; Salmiya
           </span>
@@ -85,13 +94,17 @@ export default function Home() {
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link
               to="/booking"
-              className="pointer-events-auto rounded-full bg-gold px-8 py-3 text-sm font-medium uppercase tracking-[0.25em] text-ink transition-transform hover:scale-105"
+              className={`rounded-full bg-gold px-8 py-3 text-sm font-medium uppercase tracking-[0.25em] text-ink transition-transform hover:scale-105 ${
+                playing ? '' : 'pointer-events-auto'
+              }`}
             >
               Reserve a Table
             </Link>
             <Link
               to="/services"
-              className="pointer-events-auto rounded-full border border-cream/20 px-8 py-3 text-sm font-medium uppercase tracking-[0.25em] text-cream transition-colors hover:border-gold hover:text-gold"
+              className={`rounded-full border border-cream/20 px-8 py-3 text-sm font-medium uppercase tracking-[0.25em] text-cream transition-colors hover:border-gold hover:text-gold ${
+                playing ? '' : 'pointer-events-auto'
+              }`}
             >
               View Tables &amp; Menu
             </Link>
