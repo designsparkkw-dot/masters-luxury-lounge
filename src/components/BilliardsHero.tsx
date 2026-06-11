@@ -111,6 +111,10 @@ export default function BilliardsHero() {
     let ballR = 0
     let railW = 0
     let pocketR = 0
+    let tableL = 0
+    let tableT = 0
+    let tableR = 0
+    let tableB = 0
     let feltL = 0
     let feltT = 0
     let feltR = 0
@@ -146,12 +150,12 @@ export default function BilliardsHero() {
     let fadeJob: { start: number; out: boolean; after?: () => void; chainIn: boolean } | null = null
 
     function setupRack() {
-      const cueX = width * 0.22
-      const cueY = height * 0.5
+      const cueX = feltL + (feltR - feltL) * 0.2
+      const cueY = (feltT + feltB) / 2
       balls = [{ x: cueX, y: cueY, vx: 0, vy: 0, r: ballR, color: '#f7f2e4', isCue: true }]
 
-      const apexX = width * 0.62
-      const apexY = height * 0.5
+      const apexX = feltL + (feltR - feltL) * 0.62
+      const apexY = (feltT + feltB) / 2
       const spacingX = ballR * 1.85
       const spacingY = ballR * 2.05
       let idx = 0
@@ -185,14 +189,21 @@ export default function BilliardsHero() {
       canvas!.style.height = `${height}px`
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0)
 
-      const minDim = Math.min(width, height)
-      ballR = Math.max(6, minDim / 30)
-      railW = Math.max(12, minDim * 0.05)
+      // table floats inside the hero with breathing room around it
+      const inset = Math.min(width, height) * 0.12
+      tableL = inset
+      tableT = inset
+      tableR = width - inset
+      tableB = height - inset
+      const tableMin = Math.min(tableR - tableL, tableB - tableT)
+
+      ballR = Math.max(5, tableMin / 28)
+      railW = Math.max(10, tableMin * 0.055)
       pocketR = ballR * 1.55
-      feltL = railW
-      feltT = railW
-      feltR = width - railW
-      feltB = height - railW
+      feltL = tableL + railW
+      feltT = tableT + railW
+      feltR = tableR - railW
+      feltB = tableB - railW
 
       pockets = [
         { x: feltL + pocketR * 0.3, y: feltT + pocketR * 0.3 },
@@ -201,9 +212,9 @@ export default function BilliardsHero() {
         { x: feltR - pocketR * 0.3, y: feltB - pocketR * 0.3 },
       ]
       if (width >= height) {
-        pockets.push({ x: width / 2, y: feltT }, { x: width / 2, y: feltB })
+        pockets.push({ x: (feltL + feltR) / 2, y: feltT }, { x: (feltL + feltR) / 2, y: feltB })
       } else {
-        pockets.push({ x: feltL, y: height / 2 }, { x: feltR, y: height / 2 })
+        pockets.push({ x: feltL, y: (feltT + feltB) / 2 }, { x: feltR, y: (feltT + feltB) / 2 })
       }
 
       setupRack()
@@ -328,14 +339,24 @@ export default function BilliardsHero() {
     }
 
     function drawTable() {
-      // wooden rails with gold trim
-      const railGrad = ctx!.createLinearGradient(0, 0, 0, height)
+      const tableW = tableR - tableL
+      const tableH = tableB - tableT
+      const tcx = (tableL + tableR) / 2
+
+      // wooden rails with gold trim, floating on a soft drop shadow
+      const railGrad = ctx!.createLinearGradient(0, tableT, 0, tableB)
       railGrad.addColorStop(0, '#2e1f0c')
       railGrad.addColorStop(0.5, '#463113')
       railGrad.addColorStop(1, '#1f1305')
-      roundedRectPath(ctx!, 0.5, 0.5, width - 1, height - 1, railW * 1.1)
+      ctx!.save()
+      ctx!.shadowColor = 'rgba(0, 0, 0, 0.65)'
+      ctx!.shadowBlur = railW * 1.6
+      ctx!.shadowOffsetY = railW * 0.5
+      roundedRectPath(ctx!, tableL, tableT, tableW, tableH, railW * 1.1)
       ctx!.fillStyle = railGrad
       ctx!.fill()
+      ctx!.restore()
+      roundedRectPath(ctx!, tableL, tableT, tableW, tableH, railW * 1.1)
       ctx!.lineWidth = 1.5
       ctx!.strokeStyle = 'rgba(201, 164, 103, 0.45)'
       ctx!.stroke()
@@ -345,8 +366,8 @@ export default function BilliardsHero() {
       const feltH = feltB - feltT
       roundedRectPath(ctx!, feltL, feltT, feltW, feltH, railW * 0.45)
       const feltGrad = ctx!.createRadialGradient(
-        width / 2, height * 0.45, Math.min(width, height) * 0.1,
-        width / 2, height / 2, Math.max(width, height) * 0.75
+        tcx, feltT + feltH * 0.45, Math.min(feltW, feltH) * 0.1,
+        tcx, feltT + feltH * 0.5, Math.max(feltW, feltH) * 0.75
       )
       feltGrad.addColorStop(0, '#155840')
       feltGrad.addColorStop(0.55, '#0c3d2b')
@@ -357,8 +378,8 @@ export default function BilliardsHero() {
       // overhead light pool — volumetric feel
       roundedRectPath(ctx!, feltL, feltT, feltW, feltH, railW * 0.45)
       const pool = ctx!.createRadialGradient(
-        width / 2, height * 0.42, 0,
-        width / 2, height * 0.42, Math.max(width, height) * 0.55
+        tcx, feltT + feltH * 0.42, 0,
+        tcx, feltT + feltH * 0.42, Math.max(feltW, feltH) * 0.55
       )
       pool.addColorStop(0, 'rgba(240, 228, 184, 0.13)')
       pool.addColorStop(0.5, 'rgba(240, 228, 184, 0.04)')
@@ -377,10 +398,10 @@ export default function BilliardsHero() {
       const dr = railW * 0.14
       for (const f of [0.25, 0.5, 0.75]) {
         for (const [dx, dy] of [
-          [feltL + feltW * f, railW / 2],
-          [feltL + feltW * f, height - railW / 2],
-          [railW / 2, feltT + feltH * f],
-          [width - railW / 2, feltT + feltH * f],
+          [feltL + feltW * f, tableT + railW / 2],
+          [feltL + feltW * f, tableB - railW / 2],
+          [tableL + railW / 2, feltT + feltH * f],
+          [tableR - railW / 2, feltT + feltH * f],
         ]) {
           ctx!.save()
           ctx!.translate(dx, dy)
@@ -692,7 +713,7 @@ export default function BilliardsHero() {
       ctx!.fillStyle = '#f0e4b8'
       ctx!.textAlign = 'center'
       ctx!.textBaseline = 'middle'
-      ctx!.fillText(text, width / 2, feltB - ballR * 2.2)
+      ctx!.fillText(text, (tableL + tableR) / 2, (tableB + height) / 2)
       ;(ctx as unknown as { letterSpacing?: string }).letterSpacing = '0em'
       ctx!.restore()
     }
@@ -701,8 +722,8 @@ export default function BilliardsHero() {
       const cue = balls[0]
       cue.gone = false
       cue.sinkStart = undefined
-      cue.x = width * 0.22
-      cue.y = height * 0.5
+      cue.x = feltL + (feltR - feltL) * 0.2
+      cue.y = (feltT + feltB) / 2
       cue.vx = 0
       cue.vy = 0
       let guard = 0
