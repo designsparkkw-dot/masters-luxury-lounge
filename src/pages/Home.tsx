@@ -66,7 +66,7 @@ export default function Home() {
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              'radial-gradient(ellipse at center, rgba(6,5,3,0.92) 0%, rgba(6,5,3,0.65) 45%, rgba(6,5,3,0.3) 75%, rgba(6,5,3,0.05) 100%)',
+              'radial-gradient(ellipse 55% 45% at center, rgba(6,5,3,0.72) 0%, rgba(6,5,3,0.4) 55%, rgba(6,5,3,0.12) 80%, rgba(6,5,3,0) 100%)',
           }}
         />
         <div className="pointer-events-none relative mx-auto flex max-w-6xl flex-col items-center px-4 py-24 text-center select-none sm:px-6 sm:py-32">

@@ -369,9 +369,9 @@ export default function BilliardsHero() {
         tcx, feltT + feltH * 0.45, Math.min(feltW, feltH) * 0.1,
         tcx, feltT + feltH * 0.5, Math.max(feltW, feltH) * 0.75
       )
-      feltGrad.addColorStop(0, '#155840')
-      feltGrad.addColorStop(0.55, '#0c3d2b')
-      feltGrad.addColorStop(1, '#051f15')
+      feltGrad.addColorStop(0, '#1d6b4e')
+      feltGrad.addColorStop(0.55, '#124a35')
+      feltGrad.addColorStop(1, '#082a1d')
       ctx!.fillStyle = feltGrad
       ctx!.fill()
 
@@ -381,8 +381,8 @@ export default function BilliardsHero() {
         tcx, feltT + feltH * 0.42, 0,
         tcx, feltT + feltH * 0.42, Math.max(feltW, feltH) * 0.55
       )
-      pool.addColorStop(0, 'rgba(240, 228, 184, 0.13)')
-      pool.addColorStop(0.5, 'rgba(240, 228, 184, 0.04)')
+      pool.addColorStop(0, 'rgba(240, 228, 184, 0.18)')
+      pool.addColorStop(0.5, 'rgba(240, 228, 184, 0.06)')
       pool.addColorStop(1, 'rgba(240, 228, 184, 0)')
       ctx!.fillStyle = pool
       ctx!.fill()
