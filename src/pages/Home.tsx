@@ -63,13 +63,13 @@ export default function Home() {
           <BilliardsHero />
         </div>
         <div
-          className="absolute inset-0 -z-10"
+          className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
               'radial-gradient(ellipse at center, rgba(6,5,3,0.92) 0%, rgba(6,5,3,0.65) 45%, rgba(6,5,3,0.3) 75%, rgba(6,5,3,0.05) 100%)',
           }}
         />
-        <div className="relative mx-auto flex max-w-6xl flex-col items-center px-4 py-24 text-center sm:px-6 sm:py-32">
+        <div className="pointer-events-none relative mx-auto flex max-w-6xl flex-col items-center px-4 py-24 text-center select-none sm:px-6 sm:py-32">
           <span className="rounded-full border border-gold/40 px-4 py-1 text-xs uppercase tracking-[0.4em] text-gold">
             Al Salam Mall &middot; Salmiya
           </span>
@@ -85,13 +85,13 @@ export default function Home() {
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link
               to="/booking"
-              className="rounded-full bg-gold px-8 py-3 text-sm font-medium uppercase tracking-[0.25em] text-ink transition-transform hover:scale-105"
+              className="pointer-events-auto rounded-full bg-gold px-8 py-3 text-sm font-medium uppercase tracking-[0.25em] text-ink transition-transform hover:scale-105"
             >
               Reserve a Table
             </Link>
             <Link
               to="/services"
-              className="rounded-full border border-cream/20 px-8 py-3 text-sm font-medium uppercase tracking-[0.25em] text-cream transition-colors hover:border-gold hover:text-gold"
+              className="pointer-events-auto rounded-full border border-cream/20 px-8 py-3 text-sm font-medium uppercase tracking-[0.25em] text-cream transition-colors hover:border-gold hover:text-gold"
             >
               View Tables &amp; Menu
             </Link>
