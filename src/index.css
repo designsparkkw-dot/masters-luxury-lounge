@@ -49,3 +49,99 @@ h1, h2, h3, h4 {
   background-clip: text;
   color: transparent;
 }
+
+/* --- scroll reveals --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal-left {
+  transform: translateX(-34px);
+}
+.reveal-right {
+  transform: translateX(34px);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- ambient animations --- */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(-8px);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+.animate-float {
+  animation: float-soft 6s ease-in-out infinite;
+}
+.animate-glow {
+  animation: glow-pulse 5s ease-in-out infinite;
+}
+
+.text-outline-gold {
+  -webkit-text-stroke: 1px rgba(201, 164, 103, 0.45);
+  color: transparent;
+}
+
+/* gold sheen sweeping across a card on hover */
+.card-sheen {
+  position: relative;
+  overflow: hidden;
+}
+.card-sheen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(240, 228, 184, 0.14) 50%, transparent 60%);
+  transform: translateX(-130%);
+  transition: transform 0.9s ease;
+  pointer-events: none;
+}
+.card-sheen:hover::after {
+  transform: translateX(130%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-left,
+  .reveal-right {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-marquee,
+  .animate-float,
+  .animate-glow {
+    animation: none;
+  }
+  .card-sheen::after {
+    display: none;
+  }
+}
