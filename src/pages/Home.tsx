@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { site } from '../siteConfig'
 import BilliardsHero from '../components/BilliardsHero'
 import Reveal from '../components/Reveal'
+import ReelsShowcase from '../components/ReelsShowcase'
 import logo from '../assets/logo.jpg'
 
 const highlights = [
@@ -411,6 +412,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Reels */}
+      <ReelsShowcase />
 
       {/* Testimonials */}
       <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
