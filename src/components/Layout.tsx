@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import WhatsAppFloat from './WhatsAppFloat'
-import ScrollingPoolBalls from './ScrollingPoolBalls'
 
 export default function Layout() {
   const { pathname } = useLocation()
@@ -14,7 +13,6 @@ export default function Layout() {
 
   return (
     <div className="flex min-h-screen flex-col bg-ink text-cream">
-      <ScrollingPoolBalls />
       <Navbar />
       <main className="flex-1">
         <Outlet />
