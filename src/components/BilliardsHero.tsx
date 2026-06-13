@@ -167,10 +167,15 @@ export default function BilliardsHero({ onPlayingChange }: BilliardsHeroProps) {
       const apexY = (feltT + feltB) / 2
       const spacingX = ballR * 1.85
       const spacingY = ballR * 2.05
-      let idx = 0
+      // Proper rack: the 8 (black) ball sits dead-centre of the triangle —
+      // here the middle ball of the third row (row 2, col 1). Gold-tone balls
+      // fill the rest.
+      const filler = PALETTE.filter((c) => c !== '#0c0a07')
+      let fillIdx = 0
       for (let row = 0; row < 4; row++) {
         for (let col = 0; col <= row; col++) {
-          const color = PALETTE[idx % PALETTE.length]
+          const isCentre = row === 2 && col === 1
+          const color = isCentre ? '#0c0a07' : filler[fillIdx++ % filler.length]
           balls.push({
             x: apexX + row * spacingX,
             y: apexY + (col - row / 2) * spacingY,
@@ -178,9 +183,8 @@ export default function BilliardsHero({ onPlayingChange }: BilliardsHeroProps) {
             vy: 0,
             r: ballR,
             color,
-            label: color === '#0c0a07' ? '8' : undefined,
+            label: isCentre ? '8' : undefined,
           })
-          idx++
         }
       }
       cueAngle = Math.atan2(apexY - cueY, apexX - cueX)
