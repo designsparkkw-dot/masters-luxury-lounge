@@ -15,14 +15,14 @@ const reels = [
 
 export default function ReelsShowcase() {
   return (
-    <section className="relative overflow-hidden border-y border-white/5 bg-surface">
+    <section className="relative w-full overflow-hidden rounded-t-[2.5rem] bg-ink shadow-[0_-25px_60px_-20px_rgba(0,0,0,0.75)] lg:sticky lg:top-0 lg:flex lg:min-h-screen lg:items-center">
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background: 'radial-gradient(ellipse at 20% 0%, rgba(138,106,48,0.16), transparent 55%)',
         }}
       />
-      <div className="relative mx-auto max-w-6xl px-4 py-24 sm:px-6">
+      <div className="relative mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
         <Reveal className="text-center">
           <span className="text-xs uppercase tracking-[0.4em] text-gold">Watch</span>
           <h2 className="mt-4 text-4xl font-semibold text-cream sm:text-5xl">

@@ -98,6 +98,12 @@ const testimonials = [
   },
 ]
 
+// Shared classes for a full-height "stacking" panel: on large screens it pins to
+// the top and the next panel slides up over it (rounded top + shadow for the card
+// look). On mobile it falls back to normal flow so tall content is never clipped.
+const PANEL =
+  'relative w-full rounded-t-[2.5rem] shadow-[0_-25px_60px_-20px_rgba(0,0,0,0.75)] lg:sticky lg:top-0 lg:min-h-screen lg:overflow-hidden'
+
 function CountUp({ to, suffix = '', duration = 1600 }: { to: number; suffix?: string; duration?: number }) {
   const ref = useRef<HTMLSpanElement>(null)
 
@@ -181,9 +187,9 @@ export default function Home() {
   const [playing, setPlaying] = useState(false)
 
   return (
-    <div>
-      {/* Hero */}
-      <section className="relative isolate min-h-[640px] overflow-hidden sm:min-h-[760px]">
+    <div className="relative">
+      {/* Hero — base layer of the stack */}
+      <section className="relative isolate flex min-h-screen items-center overflow-hidden lg:sticky lg:top-0">
         <div
           className="absolute inset-0 -z-30"
           style={{
@@ -214,9 +220,7 @@ export default function Home() {
           <h1 className="mt-6 text-5xl font-semibold sm:text-7xl">
             <span className="text-gradient-gold">MASTERS</span>
           </h1>
-          <p className="mt-2 text-sm uppercase tracking-[0.5em] text-muted">
-            Luxury Lounge
-          </p>
+          <p className="mt-2 text-sm uppercase tracking-[0.5em] text-muted">Luxury Lounge</p>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-cream/80 sm:text-lg">
             {site.description}
           </p>
@@ -241,50 +245,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Scrolling marquee */}
-      <section className="overflow-hidden border-y border-white/5 bg-surface py-6" aria-hidden="true">
-        <div className="animate-marquee flex w-max">
-          {[0, 1].map((copy) => (
-            <div key={copy} className="flex shrink-0 items-center">
-              {marqueeItems.map((item) => (
-                <span
-                  key={`${copy}-${item}`}
-                  className="font-display text-outline-gold mx-8 text-3xl font-bold tracking-[0.2em] uppercase whitespace-nowrap sm:text-4xl"
-                >
-                  {item}
-                  <span className="mx-8 inline-block h-2 w-2 rounded-full bg-gold/60 align-middle" />
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Highlights */}
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {highlights.map((h, i) => (
-            <Reveal key={h.title} delay={i * 120}>
-              <div className="card-sheen h-full rounded-2xl border border-white/5 bg-surface p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/30">
-                <div className="text-gold">{h.icon}</div>
-                <h3 className="mt-4 text-xl font-semibold text-cream">{h.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{h.desc}</p>
+      {/* Highlights (with marquee) */}
+      <section className={`${PANEL} bg-ink lg:flex lg:flex-col lg:justify-center`}>
+        <div className="overflow-hidden border-y border-white/5 bg-surface py-6" aria-hidden="true">
+          <div className="animate-marquee flex w-max">
+            {[0, 1].map((copy) => (
+              <div key={copy} className="flex shrink-0 items-center">
+                {marqueeItems.map((item) => (
+                  <span
+                    key={`${copy}-${item}`}
+                    className="font-display text-outline-gold mx-8 text-3xl font-bold tracking-[0.2em] uppercase whitespace-nowrap sm:text-4xl"
+                  >
+                    {item}
+                    <span className="mx-8 inline-block h-2 w-2 rounded-full bg-gold/60 align-middle" />
+                  </span>
+                ))}
               </div>
-            </Reveal>
-          ))}
+            ))}
+          </div>
+        </div>
+        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {highlights.map((h, i) => (
+              <Reveal key={h.title} delay={i * 120}>
+                <div className="card-sheen h-full rounded-2xl border border-white/5 bg-surface p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/30">
+                  <div className="text-gold">{h.icon}</div>
+                  <h3 className="mt-4 text-xl font-semibold text-cream">{h.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{h.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* The Experience */}
-      <section className="relative overflow-hidden border-y border-white/5 bg-surface">
+      <section className={`${PANEL} bg-surface lg:flex lg:items-center`}>
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            background:
-              'radial-gradient(ellipse at 80% 20%, rgba(138,106,48,0.18), transparent 55%)',
+            background: 'radial-gradient(ellipse at 80% 20%, rgba(138,106,48,0.18), transparent 55%)',
           }}
         />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-4 py-24 sm:px-6 lg:grid-cols-2">
+        <div className="relative mx-auto grid w-full max-w-6xl items-center gap-14 px-4 py-16 sm:px-6 lg:grid-cols-2">
           <Reveal direction="left">
             <span className="text-xs uppercase tracking-[0.4em] text-gold">The Experience</span>
             <h2 className="mt-4 text-4xl font-semibold text-cream sm:text-5xl">
@@ -337,8 +340,7 @@ export default function Home() {
               <div
                 className="animate-float absolute top-6 right-4 h-14 w-14 rounded-full sm:right-10"
                 style={{
-                  background:
-                    'radial-gradient(circle at 35% 30%, #f7f3e3, #c9a467 60%, #6e5220)',
+                  background: 'radial-gradient(circle at 35% 30%, #f7f3e3, #c9a467 60%, #6e5220)',
                   animationDelay: '-2s',
                   boxShadow: '0 14px 30px rgba(0,0,0,0.5)',
                 }}
@@ -346,8 +348,7 @@ export default function Home() {
               <div
                 className="animate-float absolute bottom-10 left-2 flex h-16 w-16 items-center justify-center rounded-full sm:left-8"
                 style={{
-                  background:
-                    'radial-gradient(circle at 35% 30%, #4a4a4a, #0c0a07 65%)',
+                  background: 'radial-gradient(circle at 35% 30%, #4a4a4a, #0c0a07 65%)',
                   animationDelay: '-4s',
                   boxShadow: '0 14px 30px rgba(0,0,0,0.55)',
                 }}
@@ -361,37 +362,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <div className="grid gap-10 text-center sm:grid-cols-3">
-          {[
-            { value: 24, suffix: '', label: 'Hours Open, Every Day' },
-            { value: 7, suffix: '', label: 'Days a Week, All Year' },
-            { value: 3, suffix: '', label: 'Table Styles to Choose From' },
-          ].map((s, i) => (
-            <Reveal key={s.label} delay={i * 150}>
-              <div className="font-display text-6xl font-bold text-gradient-gold sm:text-7xl">
-                <CountUp to={s.value} suffix={s.suffix} />
-              </div>
-              <p className="mt-3 text-sm uppercase tracking-[0.3em] text-muted">{s.label}</p>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+      {/* Stats + Tables */}
+      <section className={`${PANEL} bg-ink lg:flex lg:items-center`}>
+        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
+          <div className="grid gap-10 text-center sm:grid-cols-3">
+            {[
+              { value: 24, suffix: '', label: 'Hours Open, Every Day' },
+              { value: 7, suffix: '', label: 'Days a Week, All Year' },
+              { value: 3, suffix: '', label: 'Table Styles to Choose From' },
+            ].map((s, i) => (
+              <Reveal key={s.label} delay={i * 150}>
+                <div className="font-display text-6xl font-bold text-gradient-gold sm:text-7xl">
+                  <CountUp to={s.value} suffix={s.suffix} />
+                </div>
+                <p className="mt-3 text-sm uppercase tracking-[0.3em] text-muted">{s.label}</p>
+              </Reveal>
+            ))}
+          </div>
 
-      {/* Tables */}
-      <section className="border-y border-white/5 bg-surface">
-        <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
-          <Reveal className="text-center">
+          <Reveal className="mt-20 text-center">
             <span className="text-xs uppercase tracking-[0.4em] text-gold">Pick Your Table</span>
             <h2 className="mt-4 text-4xl font-semibold text-cream sm:text-5xl">
               Three Ways <span className="text-gradient-gold">to Play</span>
             </h2>
           </Reveal>
-          <div className="mt-14 grid gap-6 lg:grid-cols-3">
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
             {tableTypes.map((t, i) => (
               <Reveal key={t.name} delay={i * 150}>
-                <div className="card-sheen group flex h-full flex-col rounded-2xl border border-white/5 bg-ink p-8 transition-all duration-300 hover:-translate-y-2 hover:border-gold/40 hover:shadow-[0_24px_60px_rgba(0,0,0,0.5)]">
+                <div className="card-sheen group flex h-full flex-col rounded-2xl border border-white/5 bg-surface p-8 transition-all duration-300 hover:-translate-y-2 hover:border-gold/40 hover:shadow-[0_24px_60px_rgba(0,0,0,0.5)]">
                   <span className="font-display text-5xl font-bold text-gold/25 transition-colors duration-300 group-hover:text-gold/60">
                     0{i + 1}
                   </span>
@@ -416,39 +414,36 @@ export default function Home() {
       {/* Reels */}
       <ReelsShowcase />
 
-      {/* Testimonials */}
-      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
-        <Reveal className="text-center">
-          <span className="text-xs uppercase tracking-[0.4em] text-gold">What Players Say</span>
-          <h2 className="mt-4 mb-14 text-4xl font-semibold text-cream sm:text-5xl">
-            Loved by <span className="text-gradient-gold">Night Owls</span>
-          </h2>
-        </Reveal>
-        <Reveal delay={150}>
-          <Testimonials />
-        </Reveal>
-      </section>
+      {/* Testimonials + CTA */}
+      <section className={`${PANEL} bg-surface lg:flex lg:items-center`}>
+        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
+          <Reveal className="text-center">
+            <span className="text-xs uppercase tracking-[0.4em] text-gold">What Players Say</span>
+            <h2 className="mt-4 mb-14 text-4xl font-semibold text-cream sm:text-5xl">
+              Loved by <span className="text-gradient-gold">Night Owls</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={150}>
+            <Testimonials />
+          </Reveal>
 
-      {/* CTA Banner */}
-      <section className="border-y border-white/5 bg-bronze-dark/20">
-        <Reveal>
-          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 py-14 text-center sm:px-6 md:flex-row md:text-left">
-            <div>
-              <h2 className="text-3xl font-semibold text-cream sm:text-4xl">
-                Ready to rack up?
-              </h2>
-              <p className="mt-2 text-muted">
-                Reserve your table online and walk straight in — no waiting.
-              </p>
+          <Reveal>
+            <div className="mt-20 flex flex-col items-center justify-between gap-6 rounded-2xl border border-white/5 bg-bronze-dark/20 px-6 py-10 text-center md:flex-row md:text-left">
+              <div>
+                <h2 className="text-3xl font-semibold text-cream sm:text-4xl">Ready to rack up?</h2>
+                <p className="mt-2 text-muted">
+                  Reserve your table online and walk straight in — no waiting.
+                </p>
+              </div>
+              <Link
+                to="/booking"
+                className="card-sheen shrink-0 rounded-full bg-gold px-8 py-3 text-sm font-medium uppercase tracking-[0.25em] text-ink transition-transform hover:scale-105"
+              >
+                Book Now
+              </Link>
             </div>
-            <Link
-              to="/booking"
-              className="card-sheen shrink-0 rounded-full bg-gold px-8 py-3 text-sm font-medium uppercase tracking-[0.25em] text-ink transition-transform hover:scale-105"
-            >
-              Book Now
-            </Link>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </section>
     </div>
   )
