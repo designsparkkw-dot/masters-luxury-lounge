@@ -214,7 +214,7 @@ export default function Home() {
             <span className="text-gradient-gold">MASTERS</span>
           </h1>
           <p className="mt-2 text-sm uppercase tracking-[0.5em] text-muted">
-            Luxury Billiards Lounge
+            Luxury Lounge
           </p>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-cream/80 sm:text-lg">
             {site.description}

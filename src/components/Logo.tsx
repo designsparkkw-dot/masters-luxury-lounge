@@ -10,7 +10,7 @@ export default function Logo({ className = '', showTagline = true }: LogoProps) 
     <div className={`flex items-center gap-3 ${className}`}>
       <img
         src={logo}
-        alt="Masters Billiards Lounge logo"
+        alt="Masters Luxury Lounge logo"
         className="h-10 w-10 shrink-0 rounded-md object-cover"
       />
       <div className="leading-none text-left">
@@ -19,7 +19,7 @@ export default function Logo({ className = '', showTagline = true }: LogoProps) 
         </div>
         {showTagline && (
           <div className="mt-0.5 text-[10px] uppercase tracking-[0.35em] text-muted">
-            Billiards Lounge
+            Luxury Lounge
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
-# Masters Billiards Lounge — Website & Booking System
+# Masters Luxury Lounge — Website & Booking System
 
 A React + TypeScript (Vite) frontend with an Express + SQLite backend for the
-Masters billiards lounge (Al Salam Mall, Salmiya, Kuwait).
+Masters Luxury Lounge (Al Salam Mall, Salmiya, Kuwait).
 
 ## Project structure
 

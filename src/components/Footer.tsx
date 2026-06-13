@@ -42,7 +42,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-white/5 py-4 text-center text-xs uppercase tracking-[0.3em] text-muted">
-        &copy; {new Date().getFullYear()} Masters Billiards Lounge — All Rights Reserved
+        &copy; {new Date().getFullYear()} Masters Luxury Lounge — All Rights Reserved
       </div>
     </footer>
   )

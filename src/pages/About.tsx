@@ -25,7 +25,7 @@ export default function About() {
             About <span className="text-gradient-gold">Masters</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-cream/80">
-            Masters Luxury Billiards Lounge was created for players who take their game
+            Masters Luxury Lounge was created for players who take their game
             seriously — and for anyone who just wants a great night out. Tucked inside
             Al Salam Mall in Salmiya, our lounge blends the precision of a professional
             billiards hall with the comfort and style of a premium lounge.

@@ -75,7 +75,7 @@ export default function Contact() {
 
           <div className="overflow-hidden rounded-2xl border border-white/5">
             <iframe
-              title="Masters Billiards Lounge location"
+              title="Masters Luxury Lounge location"
               src={site.mapsEmbed}
               className="h-full min-h-[360px] w-full"
               loading="lazy"

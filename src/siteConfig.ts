@@ -1,6 +1,6 @@
 export const site = {
   name: 'MASTERS',
-  tagline: 'Luxury Billiards Lounge',
+  tagline: 'Luxury Lounge',
   description:
     "Kuwait's premier billiards lounge — pro-grade tables, refined ambiance, and a menu crafted for late nights and long games.",
   phoneDisplay: '6612 0200',
