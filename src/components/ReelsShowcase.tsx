@@ -1,15 +1,16 @@
-import InstagramEmbed from './InstagramEmbed'
+import ReelCard from './ReelCard'
 import Reveal from './Reveal'
 
-// Masters Instagram reels (newest first). Refresh by copying reel permalink
-// paths from instagram.com/masters_kw.
+// Masters reels. Drop the video files in masters-lounge/public/reels/ named
+// reel-1.mp4 ... reel-6.mp4 (optionally reel-1.jpg posters) and they autoplay.
+// Until a file exists, the card falls back to the tap-to-play Instagram embed.
 const reels = [
-  '/masters_kw/reel/DZfZkDpqASd/',
-  '/masters_kw/reel/DZczy8ptcR9/',
-  '/masters_kw/reel/DZaRVWeAknK/',
-  '/masters_kw/reel/DZXppZEg20E/',
-  '/masters_kw/reel/DZSoFSmAyMc/',
-  '/masters_kw/reel/DZNXQ6dNt5O/',
+  { video: '/reels/reel-1.mp4', poster: '/reels/reel-1.jpg', permalink: '/masters_kw/reel/DZfZkDpqASd/' },
+  { video: '/reels/reel-2.mp4', poster: '/reels/reel-2.jpg', permalink: '/masters_kw/reel/DZczy8ptcR9/' },
+  { video: '/reels/reel-3.mp4', poster: '/reels/reel-3.jpg', permalink: '/masters_kw/reel/DZaRVWeAknK/' },
+  { video: '/reels/reel-4.mp4', poster: '/reels/reel-4.jpg', permalink: '/masters_kw/reel/DZXppZEg20E/' },
+  { video: '/reels/reel-5.mp4', poster: '/reels/reel-5.jpg', permalink: '/masters_kw/reel/DZSoFSmAyMc/' },
+  { video: '/reels/reel-6.mp4', poster: '/reels/reel-6.jpg', permalink: '/masters_kw/reel/DZNXQ6dNt5O/' },
 ]
 
 export default function ReelsShowcase() {
@@ -29,7 +30,7 @@ export default function ReelsShowcase() {
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-cream/75">
             Trick shots, tournaments, and nights at Masters — straight from our
-            Instagram. Tap any reel to play.
+            Instagram, playing on a loop.
           </p>
         </Reveal>
 
@@ -38,12 +39,12 @@ export default function ReelsShowcase() {
             className="mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4"
             style={{ scrollbarWidth: 'none' }}
           >
-            {reels.map((permalink) => (
+            {reels.map((reel) => (
               <div
-                key={permalink}
-                className="w-[300px] shrink-0 snap-start overflow-hidden rounded-2xl border border-white/5 bg-ink shadow-[0_18px_50px_rgba(0,0,0,0.4)] sm:w-[340px]"
+                key={reel.permalink}
+                className="w-[260px] shrink-0 snap-start overflow-hidden rounded-2xl border border-white/5 bg-ink shadow-[0_18px_50px_rgba(0,0,0,0.4)] sm:w-[300px]"
               >
-                <InstagramEmbed permalink={permalink} />
+                <ReelCard video={reel.video} poster={reel.poster} permalink={reel.permalink} />
               </div>
             ))}
           </div>
